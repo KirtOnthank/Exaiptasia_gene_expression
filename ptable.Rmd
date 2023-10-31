@@ -1,0 +1,51 @@
+---
+output: word_document
+---
+
+```{r include=FALSE}
+library(knitr)
+```
+
+```{r include=FALSE}
+ptable=read.csv("ptable.csv")
+colnames(ptable)=c("Gene","OA","BP-3","Interaction")
+```
+
+```{r include=FALSE}
+ptable$OA=round(ptable$OA,4)
+ptable$'BP-3'=round(ptable$'BP-3',4)
+ptable$Interaction=round(ptable$Interaction,4)
+```
+
+```{r include=FALSE}
+ptable$OA[ptable$OA<0.001]="<0.001"
+ptable$'BP-3'[ptable$'BP-3'<0.001]="<0.001"
+ptable$Interaction[ptable$Interaction<0.001]="<0.001"
+```
+
+```{r include=FALSE}
+for (i in 1:nrow(ptable)){
+  if(ptable$OA[i]<0.05|ptable$OA[i]=="<0.001"){
+    ptable$OA[i]=paste0("**",ptable$OA[i],"**")
+  }
+}
+
+for (i in 1:nrow(ptable)){
+  if(ptable$'BP-3'[i]<0.05|ptable$'BP-3'[i]=="<0.001"){
+    ptable$'BP-3'[i]=paste0("**",ptable$'BP-3'[i],"**")
+  }
+}
+
+for (i in 1:nrow(ptable)){
+  if(ptable$Interaction[i]<0.05|ptable$Interaction[i]=="<0.001"){
+    ptable$Interaction[i]=paste0("**",ptable$Interaction[i],"**")
+  }
+}
+
+
+```
+
+```{r echo=FALSE}
+kable(ptable)
+```
+
